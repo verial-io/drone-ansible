@@ -1,0 +1,23 @@
+pipeline:
+  "[environment]":
+    image: golang:1.19
+    pull: always
+    environment:
+      CGO_ENABLED: "0"
+    commands:
+      - go version
+      - go env
+  "[build]":
+    image: golang:1.19
+    environment:
+      CGO_ENABLED: "0"
+    commands:
+      - go build -v -ldflags "-X main.version=" -a -tags netgo -o release/linux/amd64/drone-ansible .
+  "[docker]":
+    image: plugins/docker
+    settings:
+      dockerfile: docker/Dockerfile.linux.amd64
+      repo: ${DOCKER_REPO}
+      tags: latest
+depends_on:
+  - _testing
