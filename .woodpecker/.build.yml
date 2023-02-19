@@ -7,6 +7,8 @@ pipeline:
     commands:
       - go version
       - go env
+    volumes:
+      - /build_cache/go:/go
     when:
       branch: master
   "[build]":
@@ -15,6 +17,8 @@ pipeline:
       CGO_ENABLED: "0"
     commands:
       - go build -v -ldflags "-X main.version=" -a -tags netgo -o release/linux/amd64/drone-ansible .
+    volumes:
+      - /build_cache/go:/go
     when:
       branch: master
   "[docker]":
