@@ -7,12 +7,16 @@ pipeline:
     commands:
       - go version
       - go env
+    when:
+      branch: master
   "[build]":
     image: golang:1.19
     environment:
       CGO_ENABLED: "0"
     commands:
       - go build -v -ldflags "-X main.version=" -a -tags netgo -o release/linux/amd64/drone-ansible .
+    when:
+      branch: master
   "[docker]":
     image: plugins/docker
     settings:
@@ -20,5 +24,7 @@ pipeline:
       repo:
         from_secret: docker_repo
       tags: latest
+    when:
+      branch: master
 depends_on:
-  - _testing
+  - testing
