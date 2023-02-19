@@ -17,7 +17,8 @@ pipeline:
     image: plugins/docker
     settings:
       dockerfile: docker/Dockerfile.linux.amd64
-      repo: ${DOCKER_REPO}
+      repo:
+        from_secret: docker_repo
       tags: latest
 depends_on:
   - _testing
