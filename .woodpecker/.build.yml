@@ -28,9 +28,10 @@ pipeline:
     environment:
       - DOCKER_HOST=tcp://192.168.31.95:2375
     commands:
-      - docker build --no-cache -t ${docker_repo}:latest -f docker/Dockerfile.linux.amd64 .
-      - docker login -u ${docker_user} -p ${docker_password} ${docker_repo}
-      - docker push ${docker_repo}:latest
+      - docker build -t $DOCKER_REPO:latest -f docker/Dockerfile.linux.amd64 .
+      - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $DOCKER_REPO
+      - docker push $DOCKER_REPO:latest
+    secrets: [ docker_repo, ocker_user, docker_password ]
     when:
       branch: master
 depends_on:
