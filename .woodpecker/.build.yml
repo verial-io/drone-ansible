@@ -22,18 +22,15 @@ pipeline:
     when:
       branch: master
   "[docker]":
-    image: plugins/docker
+    image: docker:20.10.22
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    settings:
-      dockerfile: docker/Dockerfile.linux.amd64
-      username:
-        from_secret: docker_user
-      password:
-        from_secret: docker_password
-      repo:
-        from_secret: docker_repo
-      tags: latest
+    environment:
+      - DOCKER_HOST=tcp://192.168.31.95:2375
+    commands:
+      - docker build --no-cache -t ${docker_repo}:latest -f docker/Dockerfile.linux.amd64 .
+      - docker login -u ${docker_user} -p ${docker_password} ${docker_repo}
+      - docker push ${docker_repo}:latest
     when:
       branch: master
 depends_on:
