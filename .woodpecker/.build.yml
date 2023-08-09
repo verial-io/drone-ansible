@@ -31,7 +31,7 @@ pipeline:
       - docker build -t $${DOCKER_REPO}:latest -f docker/Dockerfile.linux.amd64 .
       - docker login -u $${DOCKER_USER} -p $${DOCKER_PASSWORD} $${DOCKER_REPO}
       - docker push $DOCKER_REPO:latest
-    secrets: [ docker_repo, ocker_user, docker_password ]
+    secrets: [ docker_repo, docker_user, docker_password ]
     when:
       branch: master
 depends_on:
