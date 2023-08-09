@@ -30,7 +30,7 @@ pipeline:
     commands:
       - docker build -t $${DOCKER_REPO}/drone-ansible:latest -f docker/Dockerfile.linux.amd64 .
       - docker login -u $${DOCKER_USER} -p $${DOCKER_PASSWORD} $${DOCKER_REPO}
-      - docker push $DOCKER_REPO:latest
+      - docker push $${DOCKER_REPO}/drone-ansible:latest
     secrets: [ docker_repo, docker_user, docker_password ]
     when:
       branch: master
